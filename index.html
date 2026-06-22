@@ -355,9 +355,13 @@ body:after{
 .accuracy-grid b{display:block;color:var(--navy);font-size:18px}
 .accuracy-grid small{color:var(--muted);font-size:11px}
 @media(max-width:700px){.accuracy-grid{grid-template-columns:repeat(2,1fr)}}
+
+.accuracy-grid{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.accuracy-grid{grid-template-columns:repeat(2,1fr)}}
 </style><!-- Actualizado con resultados acumulados hasta la fecha -->
 <!-- v23: partidos de hoy corregidos Jun 15 -->
 <!-- Actualizado: acumulado hasta Jun 22 + indicador de acertividad -->
+<!-- v24: modelo calibrado con ataque/defensa, over-under, BTTS, odds-ready -->
 </head>
 <body>
 <div class="wrap">
@@ -400,12 +404,59 @@ function formAdjustment(t){
 function effectiveRating(t){return baseRating(t)+formAdjustment(t)}
 function formLabel(t){let a=formAdjustment(t);return a>=55?'Muy alta':a>=25?'Alta':a<=-45?'Muy baja':a<=-20?'Baja':'Normal'}
 function formText(t){let a=formAdjustment(t),sign=a>0?'+':'';return `${formLabel(t)} (${sign}${Math.round(a)})`}
+const MARKET_PRIORS={}; // opcional: {'Team A||Team B':{aw:.55,dw:.25,bw:.20,over25:.52,btts:.48}}
+function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
+function marketKey(a,b){return [a,b].sort().join('||')}
+function basePairLambdas(a,b){let ra=baseRating(a),rb=baseRating(b);return [Math.max(.28,Math.min(3.45,1.36*Math.exp((ra-rb)/760))),Math.max(.28,Math.min(3.45,1.36*Math.exp((rb-ra)/760)))]}
+function teamProfile(t){
+  let g=0,gf=0,ga=0,expF=0,expA=0,pts=0;
+  D.matches.forEach(m=>{
+    let r=PRELOADED_RESULTS[m.id]||fixed[m.id]; if(!r||(m.a!==t&&m.b!==t))return;
+    let isA=m.a===t,opp=isA?m.b:m.a,sf=isA?r.ga:r.gb,sa=isA?r.gb:r.ga,[ela,elb]=basePairLambdas(m.a,m.b);
+    g++;gf+=sf;ga+=sa;expF+=isA?ela:elb;expA+=isA?elb:ela;pts+=sf>sa?3:sf===sa?1:0;
+  });
+  if(!g)return{att:1,def:1,style:1,games:0};
+  let att=clamp(1+((gf-expF)/Math.max(1,g))*0.10,.82,1.22);
+  let def=clamp(1-((ga-expA)/Math.max(1,g))*0.10,.82,1.22);
+  let style=clamp(1+(((gf+ga)-(expF+expA))/Math.max(1,g))*0.045,.88,1.18);
+  return{att,def,style,games:g,ppg:pts/g};
+}
+function calibrationParams(){
+  let played=D.matches.filter(m=>PRELOADED_RESULTS[m.id]||fixed[m.id]); if(!played.length)return{goalScale:1,drawScale:1,favScale:1};
+  let predGoals=0,realGoals=0,predDraw=0,realDraw=0,predFav=0,realFav=0,favN=0;
+  played.forEach(m=>{
+    let r=PRELOADED_RESULTS[m.id]||fixed[m.id],[la,lb]=basePairLambdas(m.a,m.b);
+    predGoals+=la+lb;realGoals+=r.ga+r.gb;
+    // approximate draw probability around main low scores
+    let d=0;for(let k=0;k<=6;k++)d+=pGoal(la,k)*pGoal(lb,k);predDraw+=d;realDraw+=r.ga===r.gb?1:0;
+    let fav=(baseRating(m.a)>=baseRating(m.b))?m.a:m.b;favN++;predFav+=.5+Math.min(.35,Math.abs(baseRating(m.a)-baseRating(m.b))/900);realFav+=((fav===m.a&&r.ga>r.gb)||(fav===m.b&&r.gb>r.ga))?1:0;
+  });
+  return{
+    goalScale:clamp((realGoals/Math.max(.01,predGoals))*0.55+0.45,.86,1.18),
+    drawScale:clamp((realDraw/played.length)/(predDraw/played.length||.25),.75,1.35),
+    favScale:clamp((realFav/favN)/(predFav/favN||.55),.84,1.12)
+  }
+}
+function blendedMarketOutlook(a,b,o){
+  let mk=MARKET_PRIORS[marketKey(a,b)]; if(!mk)return o;
+  let invert=a>b, ma=mk.aw,md=mk.dw,mb=mk.bw;
+  if(invert){let tmp=ma;ma=mb;mb=tmp}
+  let w=.55;
+  return{...o,aw:o.aw*(1-w)+ma*w,dw:o.dw*(1-w)+md*w,bw:o.bw*(1-w)+mb*w,market:true};
+}
+
 
 function sched(m){return GROUP_SCHEDULE[[m.a,m.b].sort().join('||')]?.label || 'Fecha por confirmar'}
 function koSched(roundName,idx){return (KO_SCHEDULE[roundName]||[])[idx] || 'Hora por confirmar'}
 
 function pois(l){let L=Math.exp(-l),k=0,p=1;do{k++;p*=Math.random()}while(p>L);return k-1}
-function lambdas(a,b){let ra=effectiveRating(a),rb=effectiveRating(b);return [Math.max(.28,Math.min(3.45,1.42*Math.exp((ra-rb)/720))),Math.max(.28,Math.min(3.45,1.42*Math.exp((rb-ra)/720)))]}
+function lambdas(a,b){let [la,lb]=basePairLambdas(a,b),pa=teamProfile(a),pb=teamProfile(b),cal=calibrationParams();
+  la*=pa.att/pb.def*((pa.style+pb.style)/2)*cal.goalScale;
+  lb*=pb.att/pa.def*((pa.style+pb.style)/2)*cal.goalScale;
+  let ra=effectiveRating(a),rb=effectiveRating(b),gap=ra-rb;
+  if(gap>80){la*=cal.favScale;lb/=Math.sqrt(cal.favScale)}
+  if(gap<-80){lb*=cal.favScale;la/=Math.sqrt(cal.favScale)}
+  return [clamp(la,.25,4.1),clamp(lb,.25,4.1)]}
 function capGoal(x){return Math.max(0,Math.min(8,x))}
 function simScore(a,b,stage='group'){let [la,lb]=lambdas(a,b),ra=D.ratings[a]||1400,rb=D.ratings[b]||1400,gap=Math.abs(ra-rb);
  if(stage==='group'&&Math.random()<.07){la*=.86;lb*=.86}
@@ -423,11 +474,11 @@ function scenarios(a,b,stage='group'){let [la,lb]=lambdas(a,b),ra=D.ratings[a]||
  if(ra<rb)arr.push([.14,la*1.45,lb*.92]);else arr.push([.14,la*.92,lb*1.45]);
  if(ra>=rb)arr.push([.10,la*1.42,lb*.88]);else arr.push([.10,la*.88,lb*1.42]);
  let total=arr.reduce((s,x)=>s+x[0],0);return arr.map(x=>[x[0]/total,x[1],x[2]])}
-function outlook(a,b,stage='group'){let aw=0,dw=0,bw=0,go=0,avgA=0,avgB=0;for(let s of scenarios(a,b,stage)){let w=s[0],la=s[1],lb=s[2];for(let ga=0;ga<=7;ga++)for(let gb=0;gb<=7;gb++){let p=w*pGoal(la,ga)*pGoal(lb,gb);avgA+=p*ga;avgB+=p*gb;if(ga>gb)aw+=p;else if(gb>ga)bw+=p;else dw+=p;if(Math.abs(ga-gb)>=3)go+=p}}let tot=aw+dw+bw;return{aw:aw/tot,dw:dw/tot,bw:bw/tot,go:go/tot,avgA:avgA/tot,avgB:avgB/tot}}
+function outlook(a,b,stage='group'){let aw=0,dw=0,bw=0,go=0,over25=0,btts=0,avgA=0,avgB=0,best=[0,0,-1],cal=calibrationParams();for(let s of scenarios(a,b,stage)){let w=s[0],la=s[1],lb=s[2];for(let ga=0;ga<=7;ga++)for(let gb=0;gb<=7;gb++){let p=w*pGoal(la,ga)*pGoal(lb,gb);if(ga===gb)p*=cal.drawScale;if(p>best[2])best=[ga,gb,p];avgA+=p*ga;avgB+=p*gb;if(ga>gb)aw+=p;else if(gb>ga)bw+=p;else dw+=p;if(Math.abs(ga-gb)>=3)go+=p;if(ga+gb>2.5)over25+=p;if(ga>0&&gb>0)btts+=p}}let tot=aw+dw+bw;let o={aw:aw/tot,dw:dw/tot,bw:bw/tot,go:go/tot,over25:over25/tot,btts:btts/tot,avgA:avgA/tot,avgB:avgB/tot,estA:best[0],estB:best[1]};return blendedMarketOutlook(a,b,o)}
 function lvl(p,a,b){let ra=effectiveRating(a),rb=effectiveRating(b),up=ra<rb?p.aw:p.bw;return up>=.26?'Alta':up>=.16?'Media':'Baja'}
 function glvl(p){return p>=.16?'Alta':p>=.08?'Media':'Baja'}
-function tip(a,b,stage='group'){let o=outlook(a,b,stage),draw=stage==='ko'?'Empate / penales':'Empate';return`<div class="infoTip"><strong>Lectura del partido</strong><span>${M(a).code} gana: ${(o.aw*100).toFixed(1)}%</span><span>${draw}: ${(o.dw*100).toFixed(1)}%</span><span>${M(b).code} gana: ${(o.bw*100).toFixed(1)}%</span><span>xG sim. ${M(a).code}: ${o.avgA.toFixed(2)}</span><span>xG sim. ${M(b).code}: ${o.avgB.toFixed(2)}</span><span>Sorpresa: ${lvl(o,a,b)}</span><span>Riesgo de goleada: ${glvl(o.go)}</span><span>Forma ${M(a).code}: ${formText(a)}</span><span>Forma ${M(b).code}: ${formText(b)}</span></div>`}
-function estScore(a,b,stage='group'){let o=outlook(a,b,stage),ra=D.ratings[a]||1400,rb=D.ratings[b]||1400,gap=Math.abs(ra-rb),m=Math.max(o.aw,o.dw,o.bw);if(m===o.dw)return[1,1];let favA=o.aw>o.bw;if(m>.64&&gap>90)return favA?(o.go>.13?[3,0]:[2,0]):(o.go>.13?[0,3]:[0,2]);if(m>.54)return favA?[2,1]:[1,2];return favA?[1,0]:[0,1]}
+function tip(a,b,stage='group'){let o=outlook(a,b,stage),draw=stage==='ko'?'Empate / penales':'Empate';return`<div class="infoTip"><strong>Lectura del partido</strong><span>${M(a).code} gana: ${(o.aw*100).toFixed(1)}%</span><span>${draw}: ${(o.dw*100).toFixed(1)}%</span><span>${M(b).code} gana: ${(o.bw*100).toFixed(1)}%</span><span>Over 2.5: ${(o.over25*100).toFixed(1)}%</span><span>Ambos anotan: ${(o.btts*100).toFixed(1)}%</span><span>xG sim. ${M(a).code}: ${o.avgA.toFixed(2)}</span><span>xG sim. ${M(b).code}: ${o.avgB.toFixed(2)}</span><span>Sorpresa: ${lvl(o,a,b)}</span><span>Riesgo de goleada: ${glvl(o.go)}</span><span>Forma ${M(a).code}: ${formText(a)}</span><span>Forma ${M(b).code}: ${formText(b)}</span><span>Mercado/odds: ${MARKET_PRIORS[marketKey(a,b)]?'Incluido':'Sin dato'}</span></div>`}
+function estScore(a,b,stage='group'){let o=outlook(a,b,stage);return[o.estA,o.estB]}
 function koWin(a,b){let [ga,gb]=simScore(a,b,'ko'),pen=false,w;if(ga>gb)w=a;else if(gb>ga)w=b;else{pen=true;let p=1/(1+Math.exp(-(effectiveRating(a)-effectiveRating(b))/240));w=Math.random()<p?a:b}return{a,b,ga,gb,w,pen}}
 function predictKO(a,b){let [ga,gb]=estScore(a,b,'ko'),pen=false,w;if(ga>gb)w=a;else if(gb>ga)w=b;else{pen=true;w=effectiveRating(a)>=effectiveRating(b)?a:b}return{a,b,ga,gb,w,pen}}
 function rank(rows){return rows.sort((x,y)=>y.Pts-x.Pts||y.GD-x.GD||y.GF-x.GF||(effectiveRating(y.team))-(D.ratings[x.team]||0)||Math.random()-.5)}
@@ -469,24 +520,27 @@ let names=['Dieciseisavos','Octavos','Cuartos','Semifinales','Final'],br=project
 document.getElementById('ko').innerHTML=`<div class="bracket">${names.map((n,ri)=>`<section class="bracket-col r${ri}"><h3>${n}</h3><div class="bracket-list">${(br[ri]||[]).map((m,idx)=>{let row=(t,g)=>`<div class="korow ${t===m.w?'win':''}">${team(t)}<span class="pill metric">${t===m.w?'<small>Avanza</small>':''}</span><b>${g}${m.pen&&t===m.w?' p':''}</b></div>`;return`<article class="ko" tabindex="0" onclick="toggleTip(this,event)"><div class="ko-title">Cruce ${idx+1} · ${koSched(n,idx)}</div>${row(m.a,m.ga)}${row(m.b,m.gb)}<div class="pen">Marcador estimado · Avanza: ${M(m.w).name}</div>${tip(m.a,m.b,'ko')}</article>`}).join('')}</div></section>`).join('')}</div>`;
 let c='Colombia',cards=[`<article class="routecard"><h4>Resumen</h4>${team(c)}<div class="routescore">${pct(A.q[c]/N*100)}</div><p>Clasifica del grupo</p><div class="routescore">${pct(A.champ[c]/N*100)}</div><p>Campeón</p></article>`];names.forEach((n,ri)=>{let ms=(br[ri]||[]).filter(m=>m.a===c||m.b===c);if(ms.length){let m=ms[0],opp=m.a===c?m.b:m.a;cards.push(`<article class="routecard"><h4>${n}</h4><p class="timechip route-time">${koSched(n,0)}</p><p>vs ${team(opp)}</p><div class="routescore">${m.ga}-${m.gb}${m.pen?' p':''}</div><p>${m.w===c?'Avanza':'Finaliza recorrido'}</p></article>`)}});document.getElementById('colroute').innerHTML=cards.join('');document.getElementById('todayMatches').innerHTML=todayMatchesHtml();document.getElementById('accuracyBox').innerHTML=accuracyHtml()}
 
-function rawLambdas(a,b){let ra=D.ratings[a]||1400,rb=D.ratings[b]||1400;return [Math.max(.28,Math.min(3.45,1.42*Math.exp((ra-rb)/720))),Math.max(.28,Math.min(3.45,1.42*Math.exp((rb-ra)/720)))]}
-function rawOutlook(a,b){let la,lb;[la,lb]=rawLambdas(a,b);let aw=0,dw=0,bw=0,best=[0,0,-1];for(let ga=0;ga<=7;ga++)for(let gb=0;gb<=7;gb++){let p=pGoal(la,ga)*pGoal(lb,gb);if(p>best[2])best=[ga,gb,p];if(ga>gb)aw+=p;else if(gb>ga)bw+=p;else dw+=p}let tot=aw+dw+bw;return{aw:aw/tot,dw:dw/tot,bw:bw/tot,estA:best[0],estB:best[1]}}
+function rawLambdas(a,b){return lambdas(a,b)}
+function rawOutlook(a,b){return outlook(a,b,'group')}
 function pickFromScore(a,b){return a>b?'A':b>a?'B':'D'}
 function pickFromOutlook(o){let mx=Math.max(o.aw,o.dw,o.bw);return mx===o.aw?'A':mx===o.bw?'B':'D'}
 function accuracyHtml(){
   let played=D.matches.filter(m=>PRELOADED_RESULTS[m.id]),total=played.length;
   if(!total)return '';
-  let oneXTwo=0,exact=0,goalErr=0,upsets=0;
+  let oneXTwo=0,exact=0,goalErr=0,upsets=0,overHit=0,bttsHit=0,probScore=0;
   played.forEach(m=>{
     let r=PRELOADED_RESULTS[m.id],o=rawOutlook(m.a,m.b),pred=pickFromOutlook(o),actual=pickFromScore(r.ga,r.gb);
     if(pred===actual)oneXTwo++;
     if(o.estA===r.ga&&o.estB===r.gb)exact++;
     goalErr+=Math.abs(o.estA-r.ga)+Math.abs(o.estB-r.gb);
+    let predOver=o.over25>=.5,realOver=(r.ga+r.gb)>2.5;if(predOver===realOver)overHit++;
+    let predBtts=o.btts>=.5,realBtts=(r.ga>0&&r.gb>0);if(predBtts===realBtts)bttsHit++;
+    let p=actual==='A'?o.aw:actual==='B'?o.bw:o.dw;probScore+=p;
     let fav=(D.ratings[m.a]||0)>=(D.ratings[m.b]||0)?'A':'B';
     if(actual!=='D'&&actual!==fav)upsets++;
   });
-  let acc=oneXTwo/total*100,ex=exact/total*100,mae=goalErr/(total*2);
-  return `<div class="accuracy-card"><h4>Acertividad del modelo</h4><div class="accuracy-grid"><span><b>${acc.toFixed(1)}%</b><small>Tendencia 1X2</small></span><span><b>${ex.toFixed(1)}%</b><small>Marcador exacto</small></span><span><b>${mae.toFixed(2)}</b><small>Error gol/equipo</small></span><span><b>${upsets}</b><small>Sorpresas detectadas</small></span></div><p class="note">Se recalcula con los partidos reales cargados. Evalúa la predicción base previa al resultado.</p></div>`;
+  let acc=oneXTwo/total*100,ex=exact/total*100,mae=goalErr/(total*2),ov=overHit/total*100,bt=bttsHit/total*100,conf=probScore/total*100;
+  return `<div class="accuracy-card"><h4>Acertividad del modelo</h4><div class="accuracy-grid"><span><b>${acc.toFixed(1)}%</b><small>Tendencia 1X2</small></span><span><b>${ov.toFixed(1)}%</b><small>Over/Under 2.5</small></span><span><b>${bt.toFixed(1)}%</b><small>Ambos anotan</small></span><span><b>${mae.toFixed(2)}</b><small>Error gol/equipo</small></span><span><b>${ex.toFixed(1)}%</b><small>Marcador exacto</small></span><span><b>${conf.toFixed(1)}%</b><small>Confianza realizada</small></span><span><b>${upsets}</b><small>Sorpresas detectadas</small></span><span><b>${total}</b><small>Partidos evaluados</small></span></div><p class="note">Indicador calibrado con resultados acumulados. El marcador exacto es secundario; el foco es tendencia, goles y lectura de partido.</p></div>`;
 }
 function updateTags(){tags.innerHTML=Object.entries(fixed).map(([id,r])=>{let m=D.matches.find(x=>x.id===id);return`<span class=tag>${M(m.a).code} ${r.ga}-${r.gb} ${M(m.b).code}</span>`}).join('')||'<span class="status">Sin resultados reales adicionales.</span>'}
 function setup(){let sel=document.getElementById('matchsel');sel.innerHTML=D.matches.map(m=>`<option value="${m.id}">${m.group} · ${M(m.a).name} ${M(m.a).code} vs ${M(m.b).name} ${M(m.b).code}</option>`).join('');document.getElementById('add').onclick=()=>{let id=sel.value;fixed[id]={ga:+sa.value,gb:+sb.value};updateTags();status.innerHTML='Resultado real fijado. Presiona Recalcular para actualizar la proyección.';if(lastAgg)render(lastAgg)};document.getElementById('clear').onclick=()=>{fixed={...PRELOADED_RESULTS};updateTags();status.innerHTML='Se limpiaron tus cambios y se restauraron los resultados reales cargados de base. Presiona Recalcular para actualizar la proyección.';if(lastAgg)render(lastAgg)};document.getElementById('run').onclick=run;updateTags()}

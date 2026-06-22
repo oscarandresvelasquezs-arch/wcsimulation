@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mundial 2026 - Actualizado hoy</title>
+<style>
+:root{--bg:#f6f8fc;--ink:#142036;--muted:#65738a;--line:#dce4ef;--navy:#0d2b4c;--blue:#1769aa;--gold:#bd8a2a;--green:#168a4a;--red:#b6483d;--shadow:0 14px 36px rgba(21,47,83,.12)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(135deg,#f8fbff,#eef3f9);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink)}a{text-decoration:none;color:inherit}
+.wrap{max-width:1460px;margin:auto;padding:26px}.hero,.card,.panel,.round{background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;padding:30px;align-items:end}
+h1{font-size:44px;letter-spacing:-.045em;margin:0 0 8px;font-weight:800}.subtitle,.note,.status{color:var(--muted);line-height:1.45}.nav{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}.btn,button{font:inherit}.btn,.primary{background:var(--navy);color:#fff;border-radius:999px;padding:11px 16px;border:0;font-weight:650;cursor:pointer}.secondary{background:#fff;color:var(--navy);border:1px solid var(--line);border-radius:999px;padding:11px 16px;cursor:pointer}
+.topgrid{display:grid;gap:10px}.top{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px}.top small{color:var(--muted)}.top b{color:var(--gold);font-size:22px}
+h2{font-size:31px;margin:30px 0 6px;letter-spacing:-.03em}.model{padding:18px;margin-top:12px}.modelgrid{display:grid;grid-template-columns:1fr 1.2fr;gap:16px}.controls{display:grid;gap:12px}label{font-size:12px;color:var(--muted)}select,input{width:100%;border:1px solid var(--line);border-radius:14px;padding:11px;background:#fff}.inline{display:grid;grid-template-columns:1fr 80px 80px auto;gap:8px;align-items:end}.tags{display:flex;gap:8px;flex-wrap:wrap}.tag,.pill{background:#f2f6fb;border:1px solid #e1e9f3;border-radius:999px;padding:5px 8px;font-size:12px;color:#334b65}.bar{height:8px;background:#edf3fb;border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--gold))}
+.team{display:inline-flex;align-items:center;gap:8px;min-width:0}.tname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.code{font-size:11px;color:#69778d}.flag{width:28px;height:19px;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px rgba(0,0,0,.1)}.emoji{font-size:18px}
+.groups{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{overflow:hidden}summary{list-style:none;cursor:pointer;padding:16px}summary::-webkit-details-marker{display:none}.card[open]{grid-column:1/-1}.card[open] summary{border-bottom:1px solid var(--line)}.gtitle{display:flex;justify-content:space-between;margin-bottom:10px}.gtitle span{font-size:20px;color:var(--navy);font-weight:700}.glist{list-style:none;margin:0;padding:0;display:grid;gap:8px}.glist li{display:grid;grid-template-columns:auto 1fr auto auto;gap:7px;align-items:center;border-top:1px solid #eef2f7;padding-top:8px}.rank{width:23px;height:23px;border-radius:99px;background:#edf3fb;display:inline-flex;align-items:center;justify-content:center;font-size:12px}.rank.q{background:#e6f7ee;color:var(--green)}
+.detail{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(520px,1.15fr);gap:14px;padding:0 16px 16px}.panel{padding:14px;overflow:auto}h4{margin:0 0 10px;color:var(--blue)}table{width:100%;min-width:720px;border-collapse:collapse;font-size:13px}td,th{padding:7px;border-bottom:1px solid #edf1f6;text-align:left}th{color:var(--muted);font-weight:600}.match{background:#fbfdff;border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:8px}.line,.korow{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:4px 0}.realmatch{border-color:#bfe8cf;background:#fbfffd}.realbadge,.estbadge{display:inline-block;border-radius:999px;padding:4px 8px;font-size:12px;margin-bottom:6px}.realbadge{background:#e7f7ee;color:var(--green);border:1px solid #bfe8cf}.estbadge{background:#f2f6fb;color:var(--muted);border:1px solid var(--line)}
+.round{padding:16px;margin-bottom:16px}.round h3{margin:0 0 12px;color:var(--navy)}.roundgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.ko{background:#fbfdff;border:1px solid var(--line);border-radius:16px;padding:12px}.korow.win{color:var(--green);font-weight:650}.pen{color:var(--muted);font-size:12px;margin-top:6px}.route{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.routecard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px;box-shadow:var(--shadow)}.routescore{font-size:23px;font-weight:700}.mobile{display:none}
+@media(max-width:1180px){.hero,.modelgrid{grid-template-columns:1fr}.topgrid{grid-template-columns:repeat(3,1fr)}.groups{grid-template-columns:repeat(3,1fr)}.roundgrid{grid-template-columns:repeat(2,1fr)}.route{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){.groups{grid-template-columns:repeat(2,1fr)}.detail{grid-template-columns:1fr}.topgrid{grid-template-columns:1fr}.inline{grid-template-columns:1fr 1fr 1fr}.inline button{grid-column:1/-1}}
+@media(max-width:700px){.wrap{padding:12px 12px 90px}.hero{display:block;border-radius:22px;padding:18px}h1{font-size:31px}.nav{display:none}.topgrid{margin-top:14px}.top{grid-template-columns:auto 1fr auto}.groups{grid-template-columns:1fr}.card[open]{grid-column:span 1}.glist li{grid-template-columns:auto 1fr}.glist li .pill{margin-left:31px;width:max-content}.detail{display:block;padding:0 12px 12px}.panel{margin-bottom:10px}.tname{white-space:normal}.team{font-size:14px}table{min-width:680px}.roundgrid,.route{grid-template-columns:1fr}.korow{grid-template-columns:1fr}.korow .pill,.korow b{margin-left:36px;width:max-content}.mobile{position:fixed;left:10px;right:10px;bottom:10px;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:7px;box-shadow:var(--shadow)}.mobile a{text-align:center;background:#fff;border:1px solid var(--line);border-radius:13px;padding:10px 4px;font-size:11.5px}.mobile a:first-child{background:var(--navy);color:#fff}}
+
+/* Clarity + bracket improvements */
+.metric{display:inline-flex;gap:4px;align-items:center}
+.metric small{color:var(--muted);font-size:10px}
+.group-list .metric{justify-content:center}
+.bracket{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:18px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:18px;overflow-x:auto}
+.bracket-col{min-width:210px;position:relative}
+.bracket-col h3{margin:0 0 12px;color:var(--navy)}
+.bracket-col .ko{position:relative}
+.bracket-col:not(:last-child) .ko:after{content:"";position:absolute;right:-18px;top:50%;width:18px;border-top:2px solid #cfd9e7}
+.bracket-col:not(:first-child) .ko:before{content:"";position:absolute;left:-18px;top:50%;width:18px;border-top:2px solid #cfd9e7}
+
+
+
+
+.ko-title{font-size:12px;color:var(--muted);margin-bottom:6px}
+.ko .pill:empty{display:none}
+.mobile{display:none}
+.mobile-bottom-note{display:none}
+@media(max-width:700px){
+  .group-list li{grid-template-columns:auto 1fr;align-items:start}
+  .group-list li .metric{margin-left:31px;width:max-content}
+  .metric small{font-size:10px}
+  .bracket{display:block;background:transparent;border:none;box-shadow:none;padding:0;overflow:visible}
+  .bracket-col{min-width:0;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:12px;margin-bottom:12px}
+  .bracket-col .ko{margin:0 0 9px!important}
+  .bracket-col .ko:before,.bracket-col .ko:after{display:none}
+  .mobile{position:static;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:7px;margin:18px 12px 22px;box-shadow:var(--shadow)}
+  .mobile a{text-align:center;background:#fff;border:1px solid var(--line);border-radius:13px;padding:10px 4px;font-size:11.5px;color:var(--navy)}
+  .mobile a:first-child{background:var(--navy);color:#fff}
+  .mobile-bottom-note{display:block;color:var(--muted);font-size:12px;text-align:center;margin:0 12px 18px}
+}
+
+/* Subtle football background */
+body{
+  position:relative;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(22,138,74,.10), transparent 26%),
+    radial-gradient(circle at 92% 18%, rgba(189,138,42,.10), transparent 24%),
+    radial-gradient(circle at 60% 92%, rgba(23,105,170,.08), transparent 30%),
+    linear-gradient(135deg,#f8fbff,#eef3f9);
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.18;
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%230d2b4c' stroke-width='1.2' opacity='.35'%3E%3Ccircle cx='90' cy='90' r='42'/%3E%3Cpath d='M90 48l28 20-10 33H72L62 68z'/%3E%3Cpath d='M62 68L34 59M118 68l28-9M72 101l-18 28M108 101l18 28M90 48V18M90 132v30'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:260px 260px;
+}
+
+/* Proper single-bracket layout */
+.bracket{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(220px,1fr));
+  gap:22px;
+  align-items:stretch;
+  background:rgba(255,255,255,.92);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:18px;
+  overflow-x:auto;
+}
+.bracket-col{
+  min-width:220px;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+}
+.bracket-col h3{
+  margin:0 0 12px;
+  color:var(--navy);
+}
+.bracket-list{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-around;
+  gap:12px;
+  min-height:100%;
+}
+.bracket-col .ko{
+  position:relative;
+  margin:0;
+  min-height:112px;
+}
+.bracket-col:not(:last-child) .ko:after{
+  content:"";
+  position:absolute;
+  right:-22px;
+  top:50%;
+  width:22px;
+  border-top:2px solid #cfd9e7;
+}
+.bracket-col:not(:first-child) .ko:before{
+  content:"";
+  position:absolute;
+  left:-22px;
+  top:50%;
+  width:22px;
+  border-top:2px solid #cfd9e7;
+}
+.ko-title{
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.ko .pill:empty{
+  display:none;
+}
+@media(max-width:700px){
+  body:before{opacity:.10;background-size:220px 220px}
+  .bracket{
+    display:block;
+    background:transparent;
+    border:none;
+    box-shadow:none;
+    padding:0;
+    overflow:visible;
+  }
+  .bracket-col{
+    min-width:0;
+    background:rgba(255,255,255,.94);
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    padding:12px;
+    margin-bottom:12px;
+  }
+  .bracket-list{
+    display:block;
+  }
+  .bracket-col .ko{
+    min-height:0;
+    margin-bottom:9px;
+  }
+  .bracket-col .ko:before,
+  .bracket-col .ko:after{
+    display:none;
+  }
+}
+
+/* World Cup 2026 inspired background and match time chips */
+body{
+  background:
+    radial-gradient(circle at 20% 12%, rgba(0,104,71,.12), transparent 28%),
+    radial-gradient(circle at 85% 8%, rgba(202,32,42,.10), transparent 28%),
+    radial-gradient(circle at 60% 90%, rgba(0,87,183,.10), transparent 30%),
+    linear-gradient(135deg,#f8fbff,#eef3f9);
+}
+body:before{
+  content:"26";
+  position:fixed;
+  right:-4vw;
+  top:8vh;
+  font-size:34vw;
+  line-height:.8;
+  font-weight:900;
+  letter-spacing:-.12em;
+  color:rgba(13,43,76,.045);
+  z-index:-2;
+  pointer-events:none;
+}
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.16;
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%230d2b4c' stroke-width='1.2' opacity='.35'%3E%3Cpath d='M24 140 C54 80, 112 96, 150 34'/%3E%3Ccircle cx='50' cy='52' r='20'/%3E%3Cpath d='M50 32l13 9-5 16H42l-5-16z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:300px 300px;
+}
+.matchmeta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:6px;
+  flex-wrap:wrap;
+}
+.timechip{
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  background:#fff7e8;
+  border:1px solid #ead6ad;
+  color:#7c5918;
+  border-radius:999px;
+  padding:4px 8px;
+  font-size:12px;
+}
+.ko-title .timechip{margin-left:4px}
+.route-time{margin:0 0 8px!important;color:#7c5918!important}
+.hero{
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.94),rgba(238,245,253,.90)),
+    radial-gradient(circle at 92% 10%,rgba(189,138,42,.14),transparent 26%);
+  backdrop-filter:blur(3px);
+}
+@media(max-width:700px){
+  body:before{font-size:70vw;right:-18vw;top:16vh}
+  body:after{opacity:.10;background-size:230px 230px}
+  .matchmeta{align-items:flex-start}
+}
+
+/* Hidden match insight tooltip */
+.detail .panel:first-child{overflow:visible}
+.match,.ko{position:relative}
+.infoTip{
+  display:none;
+  position:absolute;
+  left:12px;
+  right:12px;
+  top:calc(100% + 8px);
+  z-index:50;
+  background:#10233d;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:14px;
+  padding:11px 12px;
+  box-shadow:0 18px 38px rgba(13,43,76,.28);
+  font-size:12px;
+  line-height:1.35;
+}
+.infoTip strong{display:block;margin-bottom:6px;color:#fff}
+.infoTip span{display:flex;justify-content:space-between;gap:10px;border-top:1px solid rgba(255,255,255,.12);padding-top:4px;margin-top:4px}
+.match:hover .infoTip,.match:focus .infoTip,.match.showTip .infoTip,.ko:hover .infoTip,.ko:focus .infoTip,.ko.showTip .infoTip{display:block}
+@media(max-width:700px){
+  .infoTip{
+    position:fixed;
+    left:16px;
+    right:16px;
+    top:auto;
+    bottom:22px;
+    z-index:200;
+    max-width:none;
+  }
+}
+
+.flagbox{display:inline-flex;align-items:center;justify-content:center;width:28px;height:19px;flex:0 0 auto}
+.flagbox .fallback{display:none;width:28px;height:19px;align-items:center;justify-content:center;font-size:18px;line-height:1}
+
+.infoTip span:last-child{border-bottom:none}
+
+@media(max-width:700px){
+  .infoTip{bottom:28px}
+}
+
+.today-panel{overflow:visible}
+.today-match{position:relative;background:#fbfdff;border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:8px}
+.standings-panel table{margin-bottom:16px}
+.projection-title{margin-top:18px!important}
+.real-table th,.real-table td{white-space:nowrap}
+@media(max-width:700px){
+  .today-panel{overflow:visible}
+  .today-match{margin-bottom:9px}
+  .standings-panel{overflow:auto}
+}
+
+/* Cleaner update section */
+.model{
+  padding:18px;
+}
+.modelgrid{
+  align-items:start;
+}
+.controls-card{
+  background:#fbfdff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 10px 24px rgba(21,47,83,.06);
+}
+.controls-card h4{
+  margin:0 0 12px;
+  color:var(--navy);
+}
+.controls-card .bar{
+  margin-top:4px;
+}
+.controls-card .status{
+  min-height:20px;
+  margin-top:4px;
+}
+.tags{
+  align-items:flex-start;
+}
+.tags .tag{
+  min-height:34px;
+  display:inline-flex;
+  align-items:center;
+}
+.today-panel{
+  background:linear-gradient(135deg,#fff,#fbfdff);
+}
+.today-panel h4{
+  color:var(--navy);
+}
+.today-match{
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.today-match:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 24px rgba(21,47,83,.10);
+}
+@media(min-width:900px){
+  .modelgrid{
+    grid-template-columns:minmax(420px,.9fr) minmax(520px,1.1fr);
+    gap:18px;
+  }
+  .controls-card{
+    min-height:auto;
+  }
+}
+@media(max-width:700px){
+  .controls-card{
+    border-radius:18px;
+    padding:12px;
+  }
+  .tags .tag{
+    min-height:32px;
+  }
+}
+
+.accuracy-card{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+.accuracy-card h4{margin:0 0 10px;color:var(--navy)}
+.accuracy-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.accuracy-grid span{background:#f7f9fc;border:1px solid var(--line);border-radius:14px;padding:10px}
+.accuracy-grid b{display:block;color:var(--navy);font-size:18px}
+.accuracy-grid small{color:var(--muted);font-size:11px}
+@media(max-width:700px){.accuracy-grid{grid-template-columns:repeat(2,1fr)}}
+</style><!-- Actualizado con resultados acumulados hasta la fecha -->
+<!-- v23: partidos de hoy corregidos Jun 15 -->
+<!-- Actualizado: acumulado hasta Jun 22 + indicador de acertividad -->
+</head>
+<body>
+<div class="wrap">
+<header class="hero"><div><h1>Mundial 2026</h1><p class="subtitle">Grupos, llaves completas hasta la final, ruta de Colombia y proyección actualizable.</p><nav class="nav"><a class="btn" href="#modelo">Modelo</a><a class="btn secondary" href="#grupos">Grupos</a><a class="btn secondary" href="#llaves">Llaves</a><a class="btn secondary" href="#colombia">Colombia</a></nav></div><div id="top" class="topgrid"></div></header>
+<section id="modelo"><h2>Actualizar proyección</h2><p class="note">Selecciona precisión, fija resultados reales si quieres y vuelve a correr el modelo.</p><div class="model card"><div class="modelgrid"><div class="controls controls-card"><h4>Simular escenario</h4><label>Modo<select id="mode"><option value="10000">Rápido - 10.000</option><option value="25000" selected>Estándar - 25.000</option><option value="100000">Precisión - 100.000</option></select></label><div class="inline"><label>Partido<select id="matchsel"></select></label><label>Equipo 1<input id="sa" type="number" min="0" value="1"></label><label>Equipo 2<input id="sb" type="number" min="0" value="0"></label><button id="add" class="secondary">Fijar real</button></div><div id="tags" class="tags"></div><div><button id="run" class="primary">Recalcular</button> <button id="clear" class="secondary">Limpiar</button></div><div class="bar"><span id="bar"></span></div><div id="status" class="status">Listo.</div></div><div class="panel today-panel"><h4>Partidos de hoy</h4><p class="note">Hora Colombia. Toca un partido para ver la lectura del modelo.</p><div id="todayMatches"></div><div id="accuracyBox" class="accuracy-box"></div></div></div></div></section>
+<section id="grupos"><h2>Fase de grupos</h2><p class="note">Toca un grupo para desplegar el detalle. En móvil, toca cada partido para ver sorpresa, riesgo de riesgo de riesgo de goleada y lectura del modelo.</p><div id="groups" class="groups"></div></section>
+<section id="llaves"><h2>Llaves proyectadas</h2><p class="note">Cruces por ronda basados en la proyección actual. Toca cada partido para ver la lectura del modelo.</p><div id="ko"></div></section>
+<section id="colombia"><h2>Ruta de Colombia</h2><p class="note">Probabilidades y camino más frecuente.</p><div id="colroute" class="route"></div></section>
+</div>
+<p class="mobile-bottom-note">Navegación</p><nav class="mobile"><a href="#modelo">Modelo</a><a href="#grupos">Grupos</a><a href="#llaves">Llaves</a><a href="#colombia">Colombia</a></nav>
+<script>
+const D={"groups": {"A": ["Korea Republic", "South Africa", "Mexico", "Czechia"], "B": ["Switzerland", "Canada", "Bosnia and Herzegovina", "Qatar"], "C": ["Brazil", "Scotland", "Morocco", "Haiti"], "D": ["USA", "Türkiye", "Paraguay", "Australia"], "E": ["Curaçao", "Germany", "Ecuador", "Côte d’Ivoire"], "F": ["Netherlands", "Tunisia", "Japan", "Sweden"], "G": ["Belgium", "Egypt", "IR Iran", "New Zealand"], "H": ["Spain", "Uruguay", "Saudi Arabia", "Cabo Verde"], "I": ["France", "Norway", "Senegal", "Iraq"], "J": ["Austria", "Jordan", "Argentina", "Algeria"], "K": ["Portugal", "Colombia", "Uzbekistan", "Congo DR"], "L": ["Croatia", "Ghana", "England", "Panama"]}, "matches": [{"id": "A-0", "group": "A", "a": "Mexico", "b": "South Africa"}, {"id": "A-1", "group": "A", "a": "Korea Republic", "b": "Czechia"}, {"id": "A-2", "group": "A", "a": "Mexico", "b": "Korea Republic"}, {"id": "A-3", "group": "A", "a": "Czechia", "b": "South Africa"}, {"id": "A-4", "group": "A", "a": "Czechia", "b": "Mexico"}, {"id": "A-5", "group": "A", "a": "South Africa", "b": "Korea Republic"}, {"id": "B-0", "group": "B", "a": "Canada", "b": "Qatar"}, {"id": "B-1", "group": "B", "a": "Switzerland", "b": "Bosnia and Herzegovina"}, {"id": "B-2", "group": "B", "a": "Canada", "b": "Switzerland"}, {"id": "B-3", "group": "B", "a": "Bosnia and Herzegovina", "b": "Qatar"}, {"id": "B-4", "group": "B", "a": "Bosnia and Herzegovina", "b": "Canada"}, {"id": "B-5", "group": "B", "a": "Qatar", "b": "Switzerland"}, {"id": "C-0", "group": "C", "a": "Brazil", "b": "Morocco"}, {"id": "C-1", "group": "C", "a": "Haiti", "b": "Scotland"}, {"id": "C-2", "group": "C", "a": "Brazil", "b": "Haiti"}, {"id": "C-3", "group": "C", "a": "Scotland", "b": "Morocco"}, {"id": "C-4", "group": "C", "a": "Scotland", "b": "Brazil"}, {"id": "C-5", "group": "C", "a": "Morocco", "b": "Haiti"}, {"id": "D-0", "group": "D", "a": "USA", "b": "Paraguay"}, {"id": "D-1", "group": "D", "a": "Australia", "b": "Türkiye"}, {"id": "D-2", "group": "D", "a": "USA", "b": "Australia"}, {"id": "D-3", "group": "D", "a": "Türkiye", "b": "Paraguay"}, {"id": "D-4", "group": "D", "a": "Türkiye", "b": "USA"}, {"id": "D-5", "group": "D", "a": "Paraguay", "b": "Australia"}, {"id": "E-0", "group": "E", "a": "Germany", "b": "Curaçao"}, {"id": "E-1", "group": "E", "a": "Côte d’Ivoire", "b": "Ecuador"}, {"id": "E-2", "group": "E", "a": "Germany", "b": "Côte d’Ivoire"}, {"id": "E-3", "group": "E", "a": "Ecuador", "b": "Curaçao"}, {"id": "E-4", "group": "E", "a": "Ecuador", "b": "Germany"}, {"id": "E-5", "group": "E", "a": "Curaçao", "b": "Côte d’Ivoire"}, {"id": "F-0", "group": "F", "a": "Netherlands", "b": "Tunisia"}, {"id": "F-1", "group": "F", "a": "Japan", "b": "Sweden"}, {"id": "F-2", "group": "F", "a": "Netherlands", "b": "Japan"}, {"id": "F-3", "group": "F", "a": "Sweden", "b": "Tunisia"}, {"id": "F-4", "group": "F", "a": "Sweden", "b": "Netherlands"}, {"id": "F-5", "group": "F", "a": "Tunisia", "b": "Japan"}, {"id": "G-0", "group": "G", "a": "Belgium", "b": "IR Iran"}, {"id": "G-1", "group": "G", "a": "New Zealand", "b": "Egypt"}, {"id": "G-2", "group": "G", "a": "Belgium", "b": "New Zealand"}, {"id": "G-3", "group": "G", "a": "Egypt", "b": "IR Iran"}, {"id": "G-4", "group": "G", "a": "Egypt", "b": "Belgium"}, {"id": "G-5", "group": "G", "a": "IR Iran", "b": "New Zealand"}, {"id": "H-0", "group": "H", "a": "Spain", "b": "Saudi Arabia"}, {"id": "H-1", "group": "H", "a": "Cabo Verde", "b": "Uruguay"}, {"id": "H-2", "group": "H", "a": "Spain", "b": "Cabo Verde"}, {"id": "H-3", "group": "H", "a": "Uruguay", "b": "Saudi Arabia"}, {"id": "H-4", "group": "H", "a": "Uruguay", "b": "Spain"}, {"id": "H-5", "group": "H", "a": "Saudi Arabia", "b": "Cabo Verde"}, {"id": "I-0", "group": "I", "a": "France", "b": "Senegal"}, {"id": "I-1", "group": "I", "a": "Iraq", "b": "Norway"}, {"id": "I-2", "group": "I", "a": "France", "b": "Iraq"}, {"id": "I-3", "group": "I", "a": "Norway", "b": "Senegal"}, {"id": "I-4", "group": "I", "a": "Norway", "b": "France"}, {"id": "I-5", "group": "I", "a": "Senegal", "b": "Iraq"}, {"id": "J-0", "group": "J", "a": "Argentina", "b": "Algeria"}, {"id": "J-1", "group": "J", "a": "Austria", "b": "Jordan"}, {"id": "J-2", "group": "J", "a": "Argentina", "b": "Austria"}, {"id": "J-3", "group": "J", "a": "Jordan", "b": "Algeria"}, {"id": "J-4", "group": "J", "a": "Jordan", "b": "Argentina"}, {"id": "J-5", "group": "J", "a": "Algeria", "b": "Austria"}, {"id": "K-0", "group": "K", "a": "Portugal", "b": "Colombia"}, {"id": "K-1", "group": "K", "a": "Uzbekistan", "b": "Congo DR"}, {"id": "K-2", "group": "K", "a": "Portugal", "b": "Uzbekistan"}, {"id": "K-3", "group": "K", "a": "Congo DR", "b": "Colombia"}, {"id": "K-4", "group": "K", "a": "Congo DR", "b": "Portugal"}, {"id": "K-5", "group": "K", "a": "Colombia", "b": "Uzbekistan"}, {"id": "L-0", "group": "L", "a": "England", "b": "Croatia"}, {"id": "L-1", "group": "L", "a": "Ghana", "b": "Panama"}, {"id": "L-2", "group": "L", "a": "England", "b": "Ghana"}, {"id": "L-3", "group": "L", "a": "Panama", "b": "Croatia"}, {"id": "L-4", "group": "L", "a": "Panama", "b": "England"}, {"id": "L-5", "group": "L", "a": "Croatia", "b": "Ghana"}], "meta": {"Korea Republic": {"name": "Korea Republic", "code": "KOR", "iso": "kr", "emoji": "🇰🇷"}, "South Africa": {"name": "South Africa", "code": "RSA", "iso": "za", "emoji": "🇿🇦"}, "Mexico": {"name": "Mexico", "code": "MEX", "iso": "mx", "emoji": "🇲🇽"}, "Czechia": {"name": "Czechia", "code": "CZE", "iso": "cz", "emoji": "🇨🇿"}, "Switzerland": {"name": "Switzerland", "code": "SUI", "iso": "ch", "emoji": "🇨🇭"}, "Canada": {"name": "Canada", "code": "CAN", "iso": "ca", "emoji": "🇨🇦"}, "Bosnia and Herzegovina": {"name": "Bosnia and Herzegovina", "code": "BIH", "iso": "ba", "emoji": "🇧🇦"}, "Qatar": {"name": "Qatar", "code": "QAT", "iso": "qa", "emoji": "🇶🇦"}, "Brazil": {"name": "Brazil", "code": "BRA", "iso": "br", "emoji": "🇧🇷"}, "Scotland": {"name": "Scotland", "code": "SCO", "iso": "gb-sct", "emoji": "🏴"}, "Morocco": {"name": "Morocco", "code": "MAR", "iso": "ma", "emoji": "🇲🇦"}, "Haiti": {"name": "Haiti", "code": "HAI", "iso": "ht", "emoji": "🇭🇹"}, "USA": {"name": "USA", "code": "USA", "iso": "us", "emoji": "🇺🇸"}, "Türkiye": {"name": "Türkiye", "code": "TUR", "iso": "tr", "emoji": "🇹🇷"}, "Paraguay": {"name": "Paraguay", "code": "PAR", "iso": "py", "emoji": "🇵🇾"}, "Australia": {"name": "Australia", "code": "AUS", "iso": "au", "emoji": "🇦🇺"}, "Curaçao": {"name": "Curaçao", "code": "CUW", "iso": "cw", "emoji": "🇨🇼"}, "Germany": {"name": "Germany", "code": "GER", "iso": "de", "emoji": "🇩🇪"}, "Ecuador": {"name": "Ecuador", "code": "ECU", "iso": "ec", "emoji": "🇪🇨"}, "Côte d’Ivoire": {"name": "Côte d’Ivoire", "code": "CIV", "iso": "ci", "emoji": "🇨🇮"}, "Netherlands": {"name": "Netherlands", "code": "NED", "iso": "nl", "emoji": "🇳🇱"}, "Tunisia": {"name": "Tunisia", "code": "TUN", "iso": "tn", "emoji": "🇹🇳"}, "Japan": {"name": "Japan", "code": "JPN", "iso": "jp", "emoji": "🇯🇵"}, "Sweden": {"name": "Sweden", "code": "SWE", "iso": "se", "emoji": "🇸🇪"}, "Belgium": {"name": "Belgium", "code": "BEL", "iso": "be", "emoji": "🇧🇪"}, "Egypt": {"name": "Egypt", "code": "EGY", "iso": "eg", "emoji": "🇪🇬"}, "IR Iran": {"name": "IR Iran", "code": "IRN", "iso": "ir", "emoji": "🇮🇷"}, "New Zealand": {"name": "New Zealand", "code": "NZL", "iso": "nz", "emoji": "🇳🇿"}, "Spain": {"name": "Spain", "code": "ESP", "iso": "es", "emoji": "🇪🇸"}, "Uruguay": {"name": "Uruguay", "code": "URU", "iso": "uy", "emoji": "🇺🇾"}, "Saudi Arabia": {"name": "Saudi Arabia", "code": "KSA", "iso": "sa", "emoji": "🇸🇦"}, "Cabo Verde": {"name": "Cabo Verde", "code": "CPV", "iso": "cv", "emoji": "🇨🇻"}, "France": {"name": "France", "code": "FRA", "iso": "fr", "emoji": "🇫🇷"}, "Norway": {"name": "Norway", "code": "NOR", "iso": "no", "emoji": "🇳🇴"}, "Senegal": {"name": "Senegal", "code": "SEN", "iso": "sn", "emoji": "🇸🇳"}, "Iraq": {"name": "Iraq", "code": "IRQ", "iso": "iq", "emoji": "🇮🇶"}, "Austria": {"name": "Austria", "code": "AUT", "iso": "at", "emoji": "🇦🇹"}, "Jordan": {"name": "Jordan", "code": "JOR", "iso": "jo", "emoji": "🇯🇴"}, "Argentina": {"name": "Argentina", "code": "ARG", "iso": "ar", "emoji": "🇦🇷"}, "Algeria": {"name": "Algeria", "code": "ALG", "iso": "dz", "emoji": "🇩🇿"}, "Portugal": {"name": "Portugal", "code": "POR", "iso": "pt", "emoji": "🇵🇹"}, "Colombia": {"name": "Colombia", "code": "COL", "iso": "co", "emoji": "🇨🇴"}, "Uzbekistan": {"name": "Uzbekistan", "code": "UZB", "iso": "uz", "emoji": "🇺🇿"}, "Congo DR": {"name": "Congo DR", "code": "COD", "iso": "cd", "emoji": "🇨🇩"}, "Croatia": {"name": "Croatia", "code": "CRO", "iso": "hr", "emoji": "🇭🇷"}, "Ghana": {"name": "Ghana", "code": "GHA", "iso": "gh", "emoji": "🇬🇭"}, "England": {"name": "England", "code": "ENG", "iso": "gb-eng", "emoji": "🏴"}, "Panama": {"name": "Panama", "code": "PAN", "iso": "pa", "emoji": "🇵🇦"}}, "ratings": {"Algeria": 1426.1, "Argentina": 1805.4, "Australia": 1473.2, "Austria": 1535.1, "Belgium": 1684.2, "Bosnia and Herzegovina": 1414.4, "Brazil": 1732.3, "Cabo Verde": 1323.6, "Canada": 1367.0, "Colombia": 1649.0, "Congo DR": 1333.6, "Croatia": 1629.4, "Curaçao": 1323.6, "Czechia": 1463.9, "Côte d’Ivoire": 1477.6, "Ecuador": 1533.3, "Egypt": 1448.3, "England": 1747.4, "France": 1781.8, "Germany": 1668.4, "Ghana": 1398.7, "Haiti": 1328.7, "IR Iran": 1496.3, "Iraq": 1333.6, "Japan": 1571.2, "Jordan": 1338.4, "Korea Republic": 1503.5, "Mexico": 1599.9, "Morocco": 1622.7, "Netherlands": 1686.0, "New Zealand": 1318.3, "Norway": 1457.2, "Panama": 1374.0, "Paraguay": 1442.6, "Portugal": 1711.6, "Qatar": 1370.5, "Saudi Arabia": 1370.5, "Scotland": 1457.2, "Senegal": 1586.1, "South Africa": 1359.5, "Spain": 1786.8, "Sweden": 1524.8, "Switzerland": 1611.4, "Tunisia": 1395.9, "Türkiye": 1512.5, "USA": 1599.9, "Uruguay": 1658.3, "Uzbekistan": 1347.2}};const GROUP_SCHEDULE={"Mexico||South Africa": {"label": "Jun 11 · 2:00 p.m. COL", "date": "2026-06-11", "time": "14:00", "sourceET": "2026-06-11 3 p.m. ET"}, "Czechia||Korea Republic": {"label": "Jun 11 · 9:00 p.m. COL", "date": "2026-06-11", "time": "21:00", "sourceET": "2026-06-11 10 p.m. ET"}, "Bosnia and Herzegovina||Canada": {"label": "Jun 12 · 2:00 p.m. COL", "date": "2026-06-12", "time": "14:00", "sourceET": "2026-06-12 3 p.m. ET"}, "Paraguay||USA": {"label": "Jun 12 · 8:00 p.m. COL", "date": "2026-06-12", "time": "20:00", "sourceET": "2026-06-12 9 p.m. ET"}, "Qatar||Switzerland": {"label": "Jun 13 · 2:00 p.m. COL", "date": "2026-06-13", "time": "14:00", "sourceET": "2026-06-13 3 p.m. ET"}, "Brazil||Morocco": {"label": "Jun 13 · 5:00 p.m. COL", "date": "2026-06-13", "time": "17:00", "sourceET": "2026-06-13 6 p.m. ET"}, "Haiti||Scotland": {"label": "Jun 13 · 8:00 p.m. COL", "date": "2026-06-13", "time": "20:00", "sourceET": "2026-06-13 9 p.m. ET"}, "Australia||Türkiye": {"label": "Jun 12 · 11:00 p.m. COL", "date": "2026-06-12", "time": "23:00", "sourceET": "2026-06-13 12 a.m. ET"}, "Curaçao||Germany": {"label": "Jun 14 · 12:00 p.m. COL", "date": "2026-06-14", "time": "12:00", "sourceET": "2026-06-14 1 p.m. ET"}, "Japan||Netherlands": {"label": "Jun 14 · 3:00 p.m. COL", "date": "2026-06-14", "time": "15:00", "sourceET": "2026-06-14 4 p.m. ET"}, "Côte d’Ivoire||Ecuador": {"label": "Jun 14 · 6:00 p.m. COL", "date": "2026-06-14", "time": "18:00", "sourceET": "2026-06-14 7 p.m. ET"}, "Sweden||Tunisia": {"label": "Jun 14 · 9:00 p.m. COL", "date": "2026-06-14", "time": "21:00", "sourceET": "2026-06-14 10 p.m. ET"}, "Cabo Verde||Spain": {"label": "Jun 15 · 11:00 a.m. COL", "date": "2026-06-15", "time": "11:00", "sourceET": "2026-06-15 12 p.m. ET"}, "Belgium||Egypt": {"label": "Jun 15 · 2:00 p.m. COL", "date": "2026-06-15", "time": "14:00", "sourceET": "2026-06-15 3 p.m. ET"}, "Saudi Arabia||Uruguay": {"label": "Jun 15 · 5:00 p.m. COL", "date": "2026-06-15", "time": "17:00", "sourceET": "2026-06-15 6 p.m. ET"}, "IR Iran||New Zealand": {"label": "Jun 15 · 8:00 p.m. COL", "date": "2026-06-15", "time": "20:00", "sourceET": "2026-06-15 9 p.m. ET"}, "France||Senegal": {"label": "Jun 16 · 2:00 p.m. COL", "date": "2026-06-16", "time": "14:00", "sourceET": "2026-06-16 3 p.m. ET"}, "Iraq||Norway": {"label": "Jun 16 · 5:00 p.m. COL", "date": "2026-06-16", "time": "17:00", "sourceET": "2026-06-16 6 p.m. ET"}, "Algeria||Argentina": {"label": "Jun 16 · 8:00 p.m. COL", "date": "2026-06-16", "time": "20:00", "sourceET": "2026-06-16 9 p.m. ET"}, "Austria||Jordan": {"label": "Jun 15 · 11:00 p.m. COL", "date": "2026-06-15", "time": "23:00", "sourceET": "2026-06-16 12 a.m. ET"}, "Congo DR||Portugal": {"label": "Jun 17 · 12:00 p.m. COL", "date": "2026-06-17", "time": "12:00", "sourceET": "2026-06-17 1 p.m. ET"}, "Croatia||England": {"label": "Jun 17 · 3:00 p.m. COL", "date": "2026-06-17", "time": "15:00", "sourceET": "2026-06-17 4 p.m. ET"}, "Ghana||Panama": {"label": "Jun 17 · 6:00 p.m. COL", "date": "2026-06-17", "time": "18:00", "sourceET": "2026-06-17 7 p.m. ET"}, "Colombia||Uzbekistan": {"label": "Jun 17 · 9:00 p.m. COL", "date": "2026-06-17", "time": "21:00", "sourceET": "2026-06-17 10 p.m. ET"}, "Czechia||South Africa": {"label": "Jun 18 · 11:00 a.m. COL", "date": "2026-06-18", "time": "11:00", "sourceET": "2026-06-18 12 p.m. ET"}, "Bosnia and Herzegovina||Switzerland": {"label": "Jun 18 · 2:00 p.m. COL", "date": "2026-06-18", "time": "14:00", "sourceET": "2026-06-18 3 p.m. ET"}, "Canada||Qatar": {"label": "Jun 18 · 5:00 p.m. COL", "date": "2026-06-18", "time": "17:00", "sourceET": "2026-06-18 6 p.m. ET"}, "Korea Republic||Mexico": {"label": "Jun 18 · 8:00 p.m. COL", "date": "2026-06-18", "time": "20:00", "sourceET": "2026-06-18 9 p.m. ET"}, "Morocco||Scotland": {"label": "Jun 19 · 5:00 p.m. COL", "date": "2026-06-19", "time": "17:00", "sourceET": "2026-06-19 6 p.m. ET"}, "Australia||USA": {"label": "Jun 19 · 2:00 p.m. COL", "date": "2026-06-19", "time": "14:00", "sourceET": "2026-06-19 3 p.m. ET"}, "Brazil||Haiti": {"label": "Jun 19 · 8:00 p.m. COL", "date": "2026-06-19", "time": "20:00", "sourceET": "2026-06-19 9 p.m. ET"}, "Paraguay||Türkiye": {"label": "Jun 18 · 11:00 p.m. COL", "date": "2026-06-18", "time": "23:00", "sourceET": "2026-06-19 12 a.m. ET"}, "Netherlands||Sweden": {"label": "Jun 20 · 12:00 p.m. COL", "date": "2026-06-20", "time": "12:00", "sourceET": "2026-06-20 1 p.m. ET"}, "Côte d’Ivoire||Germany": {"label": "Jun 20 · 3:00 p.m. COL", "date": "2026-06-20", "time": "15:00", "sourceET": "2026-06-20 4 p.m. ET"}, "Curaçao||Ecuador": {"label": "Jun 20 · 7:00 p.m. COL", "date": "2026-06-20", "time": "19:00", "sourceET": "2026-06-20 8 p.m. ET"}, "Japan||Tunisia": {"label": "Jun 19 · 11:00 p.m. COL", "date": "2026-06-19", "time": "23:00", "sourceET": "2026-06-20 12 a.m. ET"}, "Saudi Arabia||Spain": {"label": "Jun 21 · 11:00 a.m. COL", "date": "2026-06-21", "time": "11:00", "sourceET": "2026-06-21 12 p.m. ET"}, "Belgium||IR Iran": {"label": "Jun 21 · 2:00 p.m. COL", "date": "2026-06-21", "time": "14:00", "sourceET": "2026-06-21 3 p.m. ET"}, "Cabo Verde||Uruguay": {"label": "Jun 21 · 5:00 p.m. COL", "date": "2026-06-21", "time": "17:00", "sourceET": "2026-06-21 6 p.m. ET"}, "Egypt||New Zealand": {"label": "Jun 21 · 8:00 p.m. COL", "date": "2026-06-21", "time": "20:00", "sourceET": "2026-06-21 9 p.m. ET"}, "Argentina||Austria": {"label": "Jun 22 · 12:00 p.m. COL", "date": "2026-06-22", "time": "12:00", "sourceET": "2026-06-22 1 p.m. ET"}, "France||Iraq": {"label": "Jun 22 · 4:00 p.m. COL", "date": "2026-06-22", "time": "16:00", "sourceET": "2026-06-22 5 p.m. ET"}, "Norway||Senegal": {"label": "Jun 22 · 7:00 p.m. COL", "date": "2026-06-22", "time": "19:00", "sourceET": "2026-06-22 8 p.m. ET"}, "Algeria||Jordan": {"label": "Jun 22 · 10:00 p.m. COL", "date": "2026-06-22", "time": "22:00", "sourceET": "2026-06-22 11 p.m. ET"}, "Portugal||Uzbekistan": {"label": "Jun 23 · 12:00 p.m. COL", "date": "2026-06-23", "time": "12:00", "sourceET": "2026-06-23 1 p.m. ET"}, "England||Ghana": {"label": "Jun 23 · 3:00 p.m. COL", "date": "2026-06-23", "time": "15:00", "sourceET": "2026-06-23 4 p.m. ET"}, "Croatia||Panama": {"label": "Jun 23 · 6:00 p.m. COL", "date": "2026-06-23", "time": "18:00", "sourceET": "2026-06-23 7 p.m. ET"}, "Colombia||Congo DR": {"label": "Jun 23 · 9:00 p.m. COL", "date": "2026-06-23", "time": "21:00", "sourceET": "2026-06-23 10 p.m. ET"}, "Canada||Switzerland": {"label": "Jun 24 · 2:00 p.m. COL", "date": "2026-06-24", "time": "14:00", "sourceET": "2026-06-24 3 p.m. ET"}, "Bosnia and Herzegovina||Qatar": {"label": "Jun 24 · 2:00 p.m. COL", "date": "2026-06-24", "time": "14:00", "sourceET": "2026-06-24 3 p.m. ET"}, "Brazil||Scotland": {"label": "Jun 24 · 5:00 p.m. COL", "date": "2026-06-24", "time": "17:00", "sourceET": "2026-06-24 6 p.m. ET"}, "Haiti||Morocco": {"label": "Jun 24 · 5:00 p.m. COL", "date": "2026-06-24", "time": "17:00", "sourceET": "2026-06-24 6 p.m. ET"}, "Czechia||Mexico": {"label": "Jun 24 · 8:00 p.m. COL", "date": "2026-06-24", "time": "20:00", "sourceET": "2026-06-24 9 p.m. ET"}, "Korea Republic||South Africa": {"label": "Jun 24 · 8:00 p.m. COL", "date": "2026-06-24", "time": "20:00", "sourceET": "2026-06-24 9 p.m. ET"}, "Ecuador||Germany": {"label": "Jun 25 · 3:00 p.m. COL", "date": "2026-06-25", "time": "15:00", "sourceET": "2026-06-25 4 p.m. ET"}, "Curaçao||Côte d’Ivoire": {"label": "Jun 25 · 3:00 p.m. COL", "date": "2026-06-25", "time": "15:00", "sourceET": "2026-06-25 4 p.m. ET"}, "Japan||Sweden": {"label": "Jun 25 · 6:00 p.m. COL", "date": "2026-06-25", "time": "18:00", "sourceET": "2026-06-25 7 p.m. ET"}, "Netherlands||Tunisia": {"label": "Jun 25 · 6:00 p.m. COL", "date": "2026-06-25", "time": "18:00", "sourceET": "2026-06-25 7 p.m. ET"}, "Türkiye||USA": {"label": "Jun 25 · 9:00 p.m. COL", "date": "2026-06-25", "time": "21:00", "sourceET": "2026-06-25 10 p.m. ET"}, "Australia||Paraguay": {"label": "Jun 25 · 9:00 p.m. COL", "date": "2026-06-25", "time": "21:00", "sourceET": "2026-06-25 10 p.m. ET"}, "France||Norway": {"label": "Jun 26 · 2:00 p.m. COL", "date": "2026-06-26", "time": "14:00", "sourceET": "2026-06-26 3 p.m. ET"}, "Iraq||Senegal": {"label": "Jun 26 · 2:00 p.m. COL", "date": "2026-06-26", "time": "14:00", "sourceET": "2026-06-26 3 p.m. ET"}, "Cabo Verde||Saudi Arabia": {"label": "Jun 26 · 7:00 p.m. COL", "date": "2026-06-26", "time": "19:00", "sourceET": "2026-06-26 8 p.m. ET"}, "Spain||Uruguay": {"label": "Jun 26 · 7:00 p.m. COL", "date": "2026-06-26", "time": "19:00", "sourceET": "2026-06-26 8 p.m. ET"}, "Egypt||IR Iran": {"label": "Jun 26 · 10:00 p.m. COL", "date": "2026-06-26", "time": "22:00", "sourceET": "2026-06-26 11 p.m. ET"}, "Belgium||New Zealand": {"label": "Jun 26 · 10:00 p.m. COL", "date": "2026-06-26", "time": "22:00", "sourceET": "2026-06-26 11 p.m. ET"}, "England||Panama": {"label": "Jun 27 · 4:00 p.m. COL", "date": "2026-06-27", "time": "16:00", "sourceET": "2026-06-27 5 p.m. ET"}, "Croatia||Ghana": {"label": "Jun 27 · 4:00 p.m. COL", "date": "2026-06-27", "time": "16:00", "sourceET": "2026-06-27 5 p.m. ET"}, "Colombia||Portugal": {"label": "Jun 27 · 6:30 p.m. COL", "date": "2026-06-27", "time": "18:30", "sourceET": "2026-06-27 7:30 p.m. ET"}, "Congo DR||Uzbekistan": {"label": "Jun 27 · 6:30 p.m. COL", "date": "2026-06-27", "time": "18:30", "sourceET": "2026-06-27 7:30 p.m. ET"}, "Algeria||Austria": {"label": "Jun 27 · 9:00 p.m. COL", "date": "2026-06-27", "time": "21:00", "sourceET": "2026-06-27 10 p.m. ET"}, "Argentina||Jordan": {"label": "Jun 27 · 9:00 p.m. COL", "date": "2026-06-27", "time": "21:00", "sourceET": "2026-06-27 10 p.m. ET"}};const KO_SCHEDULE={"Dieciseisavos": ["Jun 28 · 2:00 p.m. COL", "Jun 29 · 12:00 p.m. COL", "Jun 29 · 3:30 p.m. COL", "Jun 29 · 8:00 p.m. COL", "Jun 30 · 12:00 p.m. COL", "Jun 30 · 4:00 p.m. COL", "Jun 30 · 8:00 p.m. COL", "Jul 1 · 11:00 a.m. COL", "Jul 1 · 3:00 p.m. COL", "Jul 1 · 7:00 p.m. COL", "Jul 2 · 2:00 p.m. COL", "Jul 2 · 6:00 p.m. COL", "Jul 2 · 10:00 p.m. COL", "Jul 3 · 1:00 p.m. COL", "Jul 3 · 5:00 p.m. COL", "Jul 3 · 8:30 p.m. COL"], "Octavos": ["Jul 4 · 12:00 p.m. COL", "Jul 4 · 4:00 p.m. COL", "Jul 5 · 3:00 p.m. COL", "Jul 5 · 7:00 p.m. COL", "Jul 6 · 2:00 p.m. COL", "Jul 6 · 7:00 p.m. COL", "Jul 7 · 11:00 a.m. COL", "Jul 7 · 3:00 p.m. COL"], "Cuartos": ["Jul 9 · 3:00 p.m. COL", "Jul 10 · 2:00 p.m. COL", "Jul 11 · 4:00 p.m. COL", "Jul 11 · 8:00 p.m. COL"], "Semifinales": ["Jul 14 · 2:00 p.m. COL", "Jul 15 · 2:00 p.m. COL"], "Final": ["Jul 19 · 2:00 p.m. COL"]};let PRELOADED_RESULTS={"A-0": {"ga": 2, "gb": 0}, "A-1": {"ga": 2, "gb": 1}, "B-4": {"ga": 1, "gb": 1}, "D-0": {"ga": 4, "gb": 1}, "B-5": {"ga": 1, "gb": 1}, "C-0": {"ga": 1, "gb": 1}, "C-1": {"ga": 0, "gb": 1}, "D-1": {"ga": 2, "gb": 0}, "E-0": {"ga": 7, "gb": 1}, "F-2": {"ga": 2, "gb": 2}, "E-1": {"ga": 1, "gb": 0}, "F-3": {"ga": 5, "gb": 1}, "H-2": {"ga": 0, "gb": 0}, "G-4": {"ga": 1, "gb": 1}, "H-3": {"ga": 1, "gb": 1}, "G-5": {"ga": 2, "gb": 2}, "I-0": {"ga": 3, "gb": 1}, "I-1": {"ga": 1, "gb": 4}, "J-0": {"ga": 3, "gb": 0}, "J-1": {"ga": 3, "gb": 1}, "K-4": {"ga": 1, "gb": 1}, "L-0": {"ga": 4, "gb": 2}, "L-1": {"ga": 1, "gb": 0}, "K-5": {"ga": 3, "gb": 1}, "A-3": {"ga": 1, "gb": 1}, "B-1": {"ga": 4, "gb": 1}, "B-0": {"ga": 6, "gb": 0}, "A-2": {"ga": 1, "gb": 0}, "F-4": {"ga": 1, "gb": 5}, "E-2": {"ga": 2, "gb": 1}, "E-3": {"ga": 0, "gb": 0}, "F-5": {"ga": 0, "gb": 4}, "H-0": {"ga": 4, "gb": 0}, "G-0": {"ga": 0, "gb": 0}, "H-1": {"ga": 2, "gb": 2}, "G-1": {"ga": 1, "gb": 3}};let fixed={...PRELOADED_RESULTS},lastAgg=null;
+function M(t){return D.meta[t]||{name:t,code:'TBD',iso:'',emoji:'🏳️'}}
+function flag(t){let m=M(t);return m.iso?`<span class="flagbox"><img class="flag" src="https://flagcdn.com/w40/${m.iso}.png" alt="${m.code}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'"><span class="emoji fallback">${m.emoji}</span></span>`:`<span class="emoji">${m.emoji}</span>`}
+function team(t){let m=M(t);return `<span class="team">${flag(t)}<span class="tname">${m.name} <span class="code">${m.code}</span></span></span>`}
+function pct(x){return (x||0).toFixed(2)+'%'}
+function baseRating(t){return D.ratings[t]||1400}
+function baseLambdas(a,b){let ra=baseRating(a),rb=baseRating(b);return [Math.max(.28,Math.min(3.45,1.42*Math.exp((ra-rb)/720))),Math.max(.28,Math.min(3.45,1.42*Math.exp((rb-ra)/720)))]}
+function formAdjustment(t){
+  let adj=0,played=0,goals=0,against=0;
+  for(let m of D.matches){
+    let r=fixed[m.id]; if(!r || (m.a!==t && m.b!==t)) continue;
+    played++;
+    let isA=m.a===t, gf=isA?r.ga:r.gb, ga=isA?r.gb:r.ga, opp=isA?m.b:m.a;
+    goals+=gf; against+=ga;
+    let [ela,elb]=baseLambdas(m.a,m.b);
+    let expGD=isA?ela-elb:elb-ela;
+    let realGD=gf-ga;
+    let surprise=(baseRating(opp)-baseRating(t))/260;
+    adj += (realGD-expGD)*18 + (gf-Math.max(.5,isA?ela:elb))*7 - Math.max(0,ga-(isA?elb:ela))*6;
+    if(realGD>=3) adj += 14;
+    if(realGD<=-3) adj -= 14;
+    if(realGD>0 && surprise>0) adj += Math.min(18,surprise*10);
+    if(realGD<0 && surprise<0) adj -= Math.min(18,Math.abs(surprise)*10);
+  }
+  if(!played) return 0;
+  adj += Math.min(12,goals*1.6) - Math.min(10,against*1.8);
+  return Math.max(-70,Math.min(85,adj));
+}
+function effectiveRating(t){return baseRating(t)+formAdjustment(t)}
+function formLabel(t){let a=formAdjustment(t);return a>=55?'Muy alta':a>=25?'Alta':a<=-45?'Muy baja':a<=-20?'Baja':'Normal'}
+function formText(t){let a=formAdjustment(t),sign=a>0?'+':'';return `${formLabel(t)} (${sign}${Math.round(a)})`}
+
+function sched(m){return GROUP_SCHEDULE[[m.a,m.b].sort().join('||')]?.label || 'Fecha por confirmar'}
+function koSched(roundName,idx){return (KO_SCHEDULE[roundName]||[])[idx] || 'Hora por confirmar'}
+
+function pois(l){let L=Math.exp(-l),k=0,p=1;do{k++;p*=Math.random()}while(p>L);return k-1}
+function lambdas(a,b){let ra=effectiveRating(a),rb=effectiveRating(b);return [Math.max(.28,Math.min(3.45,1.42*Math.exp((ra-rb)/720))),Math.max(.28,Math.min(3.45,1.42*Math.exp((rb-ra)/720)))]}
+function capGoal(x){return Math.max(0,Math.min(8,x))}
+function simScore(a,b,stage='group'){let [la,lb]=lambdas(a,b),ra=D.ratings[a]||1400,rb=D.ratings[b]||1400,gap=Math.abs(ra-rb);
+ if(stage==='group'&&Math.random()<.07){la*=.86;lb*=.86}
+ let shock=Math.random();
+ if(shock<.18){if(ra<rb){la*=1.45;lb*=.92}else{lb*=1.45;la*=.92}}
+ else if(shock<.30){if(ra>=rb){la*=1.42;lb*=.88}else{lb*=1.42;la*=.88}}
+ if(Math.random()<(stage==='ko'?.30:.22)){la*=1.22+Math.random()*.70;lb*=1.18+Math.random()*.62}
+ if(stage==='ko'){la*=1.07;lb*=1.07}
+ let ga=pois(la),gb=pois(lb),blow=(stage==='ko'?.13:.10)+Math.min(.09,gap/2800);
+ if(Math.random()<blow){if((ra>=rb&&ga>=gb)||(ga>gb)){ga+=1+(Math.random()<.46?1:0)}else if((rb>ra&&gb>=ga)||(gb>ga)){gb+=1+(Math.random()<.46?1:0)}}
+ return[capGoal(ga),capGoal(gb)]}
+function pGoal(l,k){let v=Math.exp(-l);for(let i=1;i<=k;i++)v*=l/i;return v}
+function scenarios(a,b,stage='group'){let [la,lb]=lambdas(a,b),ra=D.ratings[a]||1400,rb=D.ratings[b]||1400,arr=[];
+ arr.push([.58,la,lb]);arr.push([stage==='ko'?.18:.12,la*1.38,lb*1.32]);arr.push([stage==='ko'?.06:.10,la*.82,lb*.82]);
+ if(ra<rb)arr.push([.14,la*1.45,lb*.92]);else arr.push([.14,la*.92,lb*1.45]);
+ if(ra>=rb)arr.push([.10,la*1.42,lb*.88]);else arr.push([.10,la*.88,lb*1.42]);
+ let total=arr.reduce((s,x)=>s+x[0],0);return arr.map(x=>[x[0]/total,x[1],x[2]])}
+function outlook(a,b,stage='group'){let aw=0,dw=0,bw=0,go=0,avgA=0,avgB=0;for(let s of scenarios(a,b,stage)){let w=s[0],la=s[1],lb=s[2];for(let ga=0;ga<=7;ga++)for(let gb=0;gb<=7;gb++){let p=w*pGoal(la,ga)*pGoal(lb,gb);avgA+=p*ga;avgB+=p*gb;if(ga>gb)aw+=p;else if(gb>ga)bw+=p;else dw+=p;if(Math.abs(ga-gb)>=3)go+=p}}let tot=aw+dw+bw;return{aw:aw/tot,dw:dw/tot,bw:bw/tot,go:go/tot,avgA:avgA/tot,avgB:avgB/tot}}
+function lvl(p,a,b){let ra=effectiveRating(a),rb=effectiveRating(b),up=ra<rb?p.aw:p.bw;return up>=.26?'Alta':up>=.16?'Media':'Baja'}
+function glvl(p){return p>=.16?'Alta':p>=.08?'Media':'Baja'}
+function tip(a,b,stage='group'){let o=outlook(a,b,stage),draw=stage==='ko'?'Empate / penales':'Empate';return`<div class="infoTip"><strong>Lectura del partido</strong><span>${M(a).code} gana: ${(o.aw*100).toFixed(1)}%</span><span>${draw}: ${(o.dw*100).toFixed(1)}%</span><span>${M(b).code} gana: ${(o.bw*100).toFixed(1)}%</span><span>xG sim. ${M(a).code}: ${o.avgA.toFixed(2)}</span><span>xG sim. ${M(b).code}: ${o.avgB.toFixed(2)}</span><span>Sorpresa: ${lvl(o,a,b)}</span><span>Riesgo de goleada: ${glvl(o.go)}</span><span>Forma ${M(a).code}: ${formText(a)}</span><span>Forma ${M(b).code}: ${formText(b)}</span></div>`}
+function estScore(a,b,stage='group'){let o=outlook(a,b,stage),ra=D.ratings[a]||1400,rb=D.ratings[b]||1400,gap=Math.abs(ra-rb),m=Math.max(o.aw,o.dw,o.bw);if(m===o.dw)return[1,1];let favA=o.aw>o.bw;if(m>.64&&gap>90)return favA?(o.go>.13?[3,0]:[2,0]):(o.go>.13?[0,3]:[0,2]);if(m>.54)return favA?[2,1]:[1,2];return favA?[1,0]:[0,1]}
+function koWin(a,b){let [ga,gb]=simScore(a,b,'ko'),pen=false,w;if(ga>gb)w=a;else if(gb>ga)w=b;else{pen=true;let p=1/(1+Math.exp(-(effectiveRating(a)-effectiveRating(b))/240));w=Math.random()<p?a:b}return{a,b,ga,gb,w,pen}}
+function predictKO(a,b){let [ga,gb]=estScore(a,b,'ko'),pen=false,w;if(ga>gb)w=a;else if(gb>ga)w=b;else{pen=true;w=effectiveRating(a)>=effectiveRating(b)?a:b}return{a,b,ga,gb,w,pen}}
+function rank(rows){return rows.sort((x,y)=>y.Pts-x.Pts||y.GD-x.GD||y.GF-x.GF||(effectiveRating(y.team))-(D.ratings[x.team]||0)||Math.random()-.5)}
+function one(){let tables={},q=[],third=[];for(let [g,ts] of Object.entries(D.groups)){let rows={};ts.forEach(t=>rows[t]={team:t,P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0,group:g});D.matches.filter(m=>m.group===g).forEach(m=>{let ga,gb;if(fixed[m.id]){ga=fixed[m.id].ga;gb=fixed[m.id].gb}else [ga,gb]=simScore(m.a,m.b,'group');let A=rows[m.a],B=rows[m.b];A.P++;B.P++;A.GF+=ga;A.GA+=gb;B.GF+=gb;B.GA+=ga;A.GD=A.GF-A.GA;B.GD=B.GF-B.GA;if(ga>gb){A.W++;B.L++;A.Pts+=3}else if(gb>ga){B.W++;A.L++;B.Pts+=3}else{A.D++;B.D++;A.Pts++;B.Pts++}});let r=rank(Object.values(rows));tables[g]=r;q.push(r[0],r[1]);third.push(r[2])}third=rank(third);q.push(...third.slice(0,8));q=rank(q);let ord=[0,31,15,16,8,23,7,24,3,28,12,19,4,27,11,20,1,30,14,17,6,25,10,21,2,29,13,18,5,26,9,22],cur=[];for(let i=0;i<ord.length;i+=2)cur.push([q[ord[i]].team,q[ord[i+1]].team]);let rounds=[];while(cur.length){let ms=[],nx=[];for(let p of cur){let r=koWin(p[0],p[1]);ms.push(r);nx.push(r.w)}rounds.push(ms);if(nx.length===1)break;cur=[];for(let i=0;i<nx.length;i+=2)cur.push([nx[i],nx[i+1]])}return{tables,rounds,champ:rounds.at(-1)[0].w}}
+function agg(N){let ts=Object.keys(D.meta),A={N,champ:{},q:{},first:{},second:{},pts:{}};ts.forEach(t=>{A.champ[t]=A.q[t]=A.first[t]=A.second[t]=A.pts[t]=0});for(let i=0;i<N;i++){let s=one();A.champ[s.champ]++;for(let [g,rows] of Object.entries(s.tables)){rows.forEach(r=>A.pts[r.team]+=r.Pts);A.first[rows[0].team]++;A.second[rows[1].team]++}s.rounds[0].forEach(m=>{A.q[m.a]++;A.q[m.b]++})}return A}
+function projectedBracket(A){let N=A.N,quals=[],third=[];for(let [g,ts] of Object.entries(D.groups)){let rows=[...ts].sort((a,b)=>A.pts[b]-A.pts[a]||effectiveRating(b)-effectiveRating(a));quals.push({team:rows[0],pts:A.pts[rows[0]]/N},{team:rows[1],pts:A.pts[rows[1]]/N});third.push({team:rows[2],pts:A.pts[rows[2]]/N})}third.sort((a,b)=>b.pts-a.pts||effectiveRating(b.team)-effectiveRating(a.team));quals.push(...third.slice(0,8));quals.sort((a,b)=>b.pts-a.pts||effectiveRating(b.team)-effectiveRating(a.team));let ord=[0,31,15,16,8,23,7,24,3,28,12,19,4,27,11,20,1,30,14,17,6,25,10,21,2,29,13,18,5,26,9,22],cur=[];for(let i=0;i<ord.length;i+=2)cur.push([quals[ord[i]].team,quals[ord[i+1]].team]);let rounds=[];while(cur.length){let ms=[],nx=[];for(let [a,b] of cur){let r=predictKO(a,b);ms.push(r);nx.push(r.w)}rounds.push(ms);if(nx.length===1)break;cur=[];for(let i=0;i<nx.length;i+=2)cur.push([nx[i],nx[i+1]])}return rounds}
+function toggleTip(el,e){if(!e)return;e.stopPropagation();document.querySelectorAll('.showTip').forEach(x=>{if(x!==el)x.classList.remove('showTip')});el.classList.toggle('showTip')}
+document.addEventListener('click',e=>{if(!e.target.closest('.match')&&!e.target.closest('.ko'))document.querySelectorAll('.showTip').forEach(x=>x.classList.remove('showTip'))});
+function bindGroupOpenBehavior(){document.querySelectorAll('#groups details.card').forEach(d=>{d.addEventListener('toggle',()=>{if(d.open){document.querySelectorAll('#groups details.card').forEach(o=>{if(o!==d)o.open=false});setTimeout(()=>d.scrollIntoView({behavior:'smooth',block:'nearest'}),60)}})})}
+function realTable(g){
+  let ts=D.groups[g],rows={};
+  ts.forEach(t=>rows[t]={team:t,P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0});
+  D.matches.filter(m=>m.group===g).forEach(m=>{
+    let r=fixed[m.id]; if(!r)return;
+    let A=rows[m.a],B=rows[m.b],ga=r.ga,gb=r.gb;
+    A.P++;B.P++;A.GF+=ga;A.GA+=gb;B.GF+=gb;B.GA+=ga;A.GD=A.GF-A.GA;B.GD=B.GF-B.GA;
+    if(ga>gb){A.W++;B.L++;A.Pts+=3}else if(gb>ga){B.W++;A.L++;B.Pts+=3}else{A.D++;B.D++;A.Pts++;B.Pts++}
+  });
+  return Object.values(rows).sort((x,y)=>y.Pts-x.Pts||y.GD-x.GD||y.GF-x.GF||effectiveRating(y.team)-effectiveRating(x.team));
+}
+function todayMatchIds(){
+  return ["I-2", "I-3", "J-2", "J-3"];
+}
+function schedObj(m){return GROUP_SCHEDULE[[m.a,m.b].sort().join('||')]||{label:'Fecha por confirmar',date:'9999-12-31',time:'23:59'}}
+function todayMatchesHtml(){
+  let ids=todayMatchIds(),items=D.matches.filter(m=>ids.includes(m.id)).sort((x,y)=>{
+    let sx=schedObj(x),sy=schedObj(y);
+    return (sx.date+' '+sx.time).localeCompare(sy.date+' '+sy.time);
+  });
+  return items.map(m=>{let sc=estScore(m.a,m.b,'group'),r=fixed[m.id],real=!!r;if(real)sc=[r.ga,r.gb];return`<article class="today-match ${real?'realmatch':''}" tabindex="0" onclick="toggleTip(this,event)"><div class="matchmeta"><span class="timechip">${sched(m)}</span><span class="${real?'realbadge':'estbadge'}">${real?'Real':'Estimado'}</span></div><div class="line">${team(m.a)}<b>${sc[0]}</b></div><div class="line">${team(m.b)}<b>${sc[1]}</b></div>${tip(m.a,m.b,'group')}</article>`}).join('');
+}
+
+function render(A){lastAgg=A;let N=A.N;document.getElementById('top').innerHTML=Object.entries(A.champ).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([t,c],i)=>`<article class="top"><small>#${i+1}</small>${team(t)}<b>${pct(c/N*100)}</b></article>`).join('');
+document.getElementById('groups').innerHTML=Object.entries(D.groups).sort().map(([g,ts])=>{let realCount=D.matches.filter(m=>m.group===g&&fixed[m.id]).length;let sorted=[...ts].sort((a,b)=>A.pts[b]-A.pts[a]||effectiveRating(b)-effectiveRating(a));let mini=sorted.map((t,i)=>`<li><span class="rank ${i<2?'q':''}">${i+1}</span>${team(t)}<span class="pill metric"><small>Pts</small>${Math.round(A.pts[t]/N)}</span><span class="pill metric"><small>Clas.</small>${pct(A.q[t]/N*100)}</span></li>`).join(''),tab=sorted.map((t,i)=>`<tr><td>${i+1}</td><td>${team(t)}</td><td>${(A.pts[t]/N).toFixed(1)}</td><td>${pct(A.q[t]/N*100)}</td><td>${pct(A.first[t]/N*100)}</td><td>${pct(A.second[t]/N*100)}</td><td>${pct(A.champ[t]/N*100)}</td></tr>`).join('');let tracking=D.matches.filter(m=>m.group===g).map(m=>{let r=fixed[m.id],is=!!r,sc=is?[r.ga,r.gb]:estScore(m.a,m.b,'group');return`<div class="match ${is?'realmatch':''}" tabindex="0" onclick="toggleTip(this,event)"><div class="matchmeta"><span class="timechip">${sched(m)}</span><span class="${is?'realbadge':'estbadge'}">${is?'Real':'Estimado'}</span></div><div class="line">${team(m.a)}<b>${sc[0]}</b></div><div class="line">${team(m.b)}<b>${sc[1]}</b></div>${tip(m.a,m.b,'group')}</div>`}).join('');
+let realRows=realTable(g),realTab=realRows.map((r,i)=>`<tr><td>${i+1}</td><td>${team(r.team)}</td><td>${r.P}</td><td>${r.W}</td><td>${r.D}</td><td>${r.L}</td><td>${r.GF}</td><td>${r.GA}</td><td>${r.GD}</td><td>${r.Pts}</td></tr>`).join('');
+let projTab=sorted.map((t,i)=>`<tr><td>${i+1}</td><td>${team(t)}</td><td>${Math.round(A.pts[t]/N)}</td><td>${pct(A.q[t]/N*100)}</td><td>${pct(A.first[t]/N*100)}</td><td>${pct(A.second[t]/N*100)}</td><td>${pct(A.champ[t]/N*100)}</td></tr>`).join('');
+return`<details class="card"><summary><div class="gtitle"><span>Grupo ${g}</span><small>${realCount?realCount+' real'+(realCount>1?'es':''):'Proyección'}</small></div><ul class="glist">${mini}</ul></summary><div class="detail"><section class="panel"><h4>Seguimiento del grupo</h4>${tracking}</section><section class="panel standings-panel"><h4>Tabla real</h4><table class="real-table"><thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr></thead><tbody>${realTab}</tbody></table><h4 class="projection-title">Proyección</h4><table><thead><tr><th>#</th><th>Equipo</th><th>Pts est.</th><th>Clas.</th><th>1º</th><th>2º</th><th>Camp.</th></tr></thead><tbody>${projTab}</tbody></table></section></div></details>`}).join('');bindGroupOpenBehavior();
+let names=['Dieciseisavos','Octavos','Cuartos','Semifinales','Final'],br=projectedBracket(A);
+document.getElementById('ko').innerHTML=`<div class="bracket">${names.map((n,ri)=>`<section class="bracket-col r${ri}"><h3>${n}</h3><div class="bracket-list">${(br[ri]||[]).map((m,idx)=>{let row=(t,g)=>`<div class="korow ${t===m.w?'win':''}">${team(t)}<span class="pill metric">${t===m.w?'<small>Avanza</small>':''}</span><b>${g}${m.pen&&t===m.w?' p':''}</b></div>`;return`<article class="ko" tabindex="0" onclick="toggleTip(this,event)"><div class="ko-title">Cruce ${idx+1} · ${koSched(n,idx)}</div>${row(m.a,m.ga)}${row(m.b,m.gb)}<div class="pen">Marcador estimado · Avanza: ${M(m.w).name}</div>${tip(m.a,m.b,'ko')}</article>`}).join('')}</div></section>`).join('')}</div>`;
+let c='Colombia',cards=[`<article class="routecard"><h4>Resumen</h4>${team(c)}<div class="routescore">${pct(A.q[c]/N*100)}</div><p>Clasifica del grupo</p><div class="routescore">${pct(A.champ[c]/N*100)}</div><p>Campeón</p></article>`];names.forEach((n,ri)=>{let ms=(br[ri]||[]).filter(m=>m.a===c||m.b===c);if(ms.length){let m=ms[0],opp=m.a===c?m.b:m.a;cards.push(`<article class="routecard"><h4>${n}</h4><p class="timechip route-time">${koSched(n,0)}</p><p>vs ${team(opp)}</p><div class="routescore">${m.ga}-${m.gb}${m.pen?' p':''}</div><p>${m.w===c?'Avanza':'Finaliza recorrido'}</p></article>`)}});document.getElementById('colroute').innerHTML=cards.join('');document.getElementById('todayMatches').innerHTML=todayMatchesHtml();document.getElementById('accuracyBox').innerHTML=accuracyHtml()}
+
+function rawLambdas(a,b){let ra=D.ratings[a]||1400,rb=D.ratings[b]||1400;return [Math.max(.28,Math.min(3.45,1.42*Math.exp((ra-rb)/720))),Math.max(.28,Math.min(3.45,1.42*Math.exp((rb-ra)/720)))]}
+function rawOutlook(a,b){let la,lb;[la,lb]=rawLambdas(a,b);let aw=0,dw=0,bw=0,best=[0,0,-1];for(let ga=0;ga<=7;ga++)for(let gb=0;gb<=7;gb++){let p=pGoal(la,ga)*pGoal(lb,gb);if(p>best[2])best=[ga,gb,p];if(ga>gb)aw+=p;else if(gb>ga)bw+=p;else dw+=p}let tot=aw+dw+bw;return{aw:aw/tot,dw:dw/tot,bw:bw/tot,estA:best[0],estB:best[1]}}
+function pickFromScore(a,b){return a>b?'A':b>a?'B':'D'}
+function pickFromOutlook(o){let mx=Math.max(o.aw,o.dw,o.bw);return mx===o.aw?'A':mx===o.bw?'B':'D'}
+function accuracyHtml(){
+  let played=D.matches.filter(m=>PRELOADED_RESULTS[m.id]),total=played.length;
+  if(!total)return '';
+  let oneXTwo=0,exact=0,goalErr=0,upsets=0;
+  played.forEach(m=>{
+    let r=PRELOADED_RESULTS[m.id],o=rawOutlook(m.a,m.b),pred=pickFromOutlook(o),actual=pickFromScore(r.ga,r.gb);
+    if(pred===actual)oneXTwo++;
+    if(o.estA===r.ga&&o.estB===r.gb)exact++;
+    goalErr+=Math.abs(o.estA-r.ga)+Math.abs(o.estB-r.gb);
+    let fav=(D.ratings[m.a]||0)>=(D.ratings[m.b]||0)?'A':'B';
+    if(actual!=='D'&&actual!==fav)upsets++;
+  });
+  let acc=oneXTwo/total*100,ex=exact/total*100,mae=goalErr/(total*2);
+  return `<div class="accuracy-card"><h4>Acertividad del modelo</h4><div class="accuracy-grid"><span><b>${acc.toFixed(1)}%</b><small>Tendencia 1X2</small></span><span><b>${ex.toFixed(1)}%</b><small>Marcador exacto</small></span><span><b>${mae.toFixed(2)}</b><small>Error gol/equipo</small></span><span><b>${upsets}</b><small>Sorpresas detectadas</small></span></div><p class="note">Se recalcula con los partidos reales cargados. Evalúa la predicción base previa al resultado.</p></div>`;
+}
+function updateTags(){tags.innerHTML=Object.entries(fixed).map(([id,r])=>{let m=D.matches.find(x=>x.id===id);return`<span class=tag>${M(m.a).code} ${r.ga}-${r.gb} ${M(m.b).code}</span>`}).join('')||'<span class="status">Sin resultados reales adicionales.</span>'}
+function setup(){let sel=document.getElementById('matchsel');sel.innerHTML=D.matches.map(m=>`<option value="${m.id}">${m.group} · ${M(m.a).name} ${M(m.a).code} vs ${M(m.b).name} ${M(m.b).code}</option>`).join('');document.getElementById('add').onclick=()=>{let id=sel.value;fixed[id]={ga:+sa.value,gb:+sb.value};updateTags();status.innerHTML='Resultado real fijado. Presiona Recalcular para actualizar la proyección.';if(lastAgg)render(lastAgg)};document.getElementById('clear').onclick=()=>{fixed={...PRELOADED_RESULTS};updateTags();status.innerHTML='Se limpiaron tus cambios y se restauraron los resultados reales cargados de base. Presiona Recalcular para actualizar la proyección.';if(lastAgg)render(lastAgg)};document.getElementById('run').onclick=run;updateTags()}
+function run(){let N=+mode.value;status.innerHTML=`Corriendo ${N.toLocaleString('es-CO')} simulaciones...`;bar.style.width='20%';setTimeout(()=>{let t=performance.now(),A=agg(N);bar.style.width='100%';status.innerHTML=`Listo: ${N.toLocaleString('es-CO')} simulaciones · ${((performance.now()-t)/1000).toFixed(1)}s · resultados reales cargados: ${Object.keys(fixed).length}`;render(A)},50)}
+setup();run();
+</script>
+</body></html>
